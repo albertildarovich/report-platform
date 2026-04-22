@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "Платформа отчетов",
+    "newReport": "+ Новый отчет",
+    "reports": "Отчеты",
+    "reportId": "ID отчета",
+    "template": "Шаблон",
+    "status": "Статус",
+    "started": "Начато",
+    "completed": "Завершено",
+    "actions": "Действия",
+    "download": "Скачать",
+    "delete": "Удалить",
+    "generate": "Сгенерировать",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успех",
+    "viewError": "Просмотр ошибки",
+    "queued": "В очереди",
+    "processing": "В обработке",
+    "unknown": "Неизвестно",
+    "selectReportTemplate": "Выберите шаблон отчета",
+    "failedToLoadTemplates": "Не удалось загрузить шаблоны отчетов:",
+    "noTemplatesAvailable": "Нет доступных шаблонов отчетов. Пожалуйста, заполните базу данных.",
+    "rowsPerPage": "Строк на странице:",
+    "limit": "Лимит",
+    "auto": "Авто",
+    "paginationSummary": "{{from}}-{{to}} из {{total}}",
+    "reportsDescription": "Список всех сгенерированных отчетов, обновляется автоматически."
+  },
+  "status": {
+    "PENDING": "В ожидании",
+    "PROCESSING": "В обработке",
+    "COMPLETED": "Завершено",
+    "FAILED": "Ошибка"
+  },
+  "language": {
+    "en": "Английский",
+    "ru": "Русский"
+  }
+}

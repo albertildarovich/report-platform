@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ReportTemplate {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  format      ReportFormat @default(PDF)
+  type        String?      // e.g., "Sales", "Inventory", custom
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  reports     Report[]
+}
+
+enum ReportFormat {
+  PDF
+  XLSX
+}
+
+model Report {
+  id               String         @id @default(uuid())
+  reportTemplateId String
+  reportTemplate   ReportTemplate @relation(fields: [reportTemplateId], references: [id], onDelete: Cascade)
+  status           RunStatus      @default(PENDING)
+  startedAt        DateTime?
+  completedAt      DateTime?
+  error            String?
+  resultUrl        String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+enum RunStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}

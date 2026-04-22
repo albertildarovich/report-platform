@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "Report Platform",
+    "newReport": "+ New Report",
+    "reports": "Reports",
+    "reportId": "Report ID",
+    "template": "Template",
+    "status": "Status",
+    "started": "Started",
+    "completed": "Completed",
+    "actions": "Actions",
+    "download": "Download",
+    "delete": "Delete",
+    "generate": "Generate",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "viewError": "View Error",
+    "queued": "Queued",
+    "processing": "Processing",
+    "unknown": "Unknown",
+    "selectReportTemplate": "Select Report Template",
+    "failedToLoadTemplates": "Failed to load report templates:",
+    "noTemplatesAvailable": "No report templates available. Please seed the database.",
+    "rowsPerPage": "Rows per page:",
+    "limit": "Limit",
+    "auto": "Auto",
+    "paginationSummary": "{{from}}-{{to}} of {{total}}",
+    "reportsDescription": "List of all generated reports, updated automatically."
+  },
+  "status": {
+    "PENDING": "Pending",
+    "PROCESSING": "Processing",
+    "COMPLETED": "Completed",
+    "FAILED": "Failed"
+  },
+  "language": {
+    "en": "English",
+    "ru": "Русский"
+  }
+}
