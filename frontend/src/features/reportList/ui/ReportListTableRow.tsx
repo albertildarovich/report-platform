@@ -1,7 +1,8 @@
 import React from 'react';
 import { TableRow, TableCell, Chip, Button, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Report } from '../../../shared/types';
+import type { Report } from '../../../shared/api/client/models/Report';
+import { reportApi } from '../../../entities/report';
 
 interface ReportListTableRowProps {
   report: Report;
@@ -15,10 +16,13 @@ export const ReportListTableRow: React.FC<ReportListTableRowProps> = ({
   formatDate,
 }) => {
   const { t } = useTranslation();
-  const statusColor = statusColorMap[report.status] || 'default';
+  const status = report.status ?? 'PENDING';
+  const reportId = report.id ?? 'unknown';
+  const statusColor = statusColorMap[status] || 'default';
 
   const handleDownload = () => {
-    alert(`Download stub for ${report.id}`);
+    const downloadUrl = reportApi.resolveDownloadUrl(report.resultUrl || '', report.id);
+    window.open(downloadUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleViewError = () => {
@@ -39,31 +43,31 @@ export const ReportListTableRow: React.FC<ReportListTableRowProps> = ({
   return (
     <TableRow hover>
       <TableCell>
-        <code>{report.id.substring(0, 8)}...</code>
+        <code>{reportId.substring(0, 8)}...</code>
       </TableCell>
       <TableCell>
         <Box>
-          <strong>{report.reportTemplate?.name || t('app.unknown', 'Unknown')}</strong>
+          <strong>{report.reportTemplateId || t('app.unknown', 'Unknown')}</strong>
           <br />
-          <small>{report.reportTemplate?.description}</small>
+          <small>{t('app.templateId', 'Template ID')}</small>
         </Box>
       </TableCell>
       <TableCell>
         <Chip
-          label={getStatusLabel(report.status)}
+          label={getStatusLabel(status)}
           color={statusColor}
           size="small"
           variant="filled"
         />
       </TableCell>
-      <TableCell>{formatDate(report.startedAt)}</TableCell>
-      <TableCell>{formatDate(report.completedAt)}</TableCell>
+      <TableCell>{formatDate(report.startedAt ?? undefined)}</TableCell>
+      <TableCell>{formatDate(report.completedAt ?? undefined)}</TableCell>
       <TableCell align="right">
-        {report.status === 'COMPLETED' ? (
+        {status === 'COMPLETED' ? (
           <Button variant="contained" size="small" onClick={handleDownload}>
             {t('app.download')}
           </Button>
-        ) : report.status === 'FAILED' ? (
+        ) : status === 'FAILED' ? (
           <Button
             variant="outlined"
             color="error"
@@ -74,7 +78,7 @@ export const ReportListTableRow: React.FC<ReportListTableRowProps> = ({
           </Button>
         ) : (
           <Button variant="outlined" size="small" disabled>
-            {getButtonLabel(report.status)}
+            {getButtonLabel(status)}
           </Button>
         )}
       </TableCell>

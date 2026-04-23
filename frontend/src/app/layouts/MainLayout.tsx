@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Container, Box, Snackbar, Alert } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { Header } from '../../widgets/Header';
 import { Footer } from '../../widgets/Footer';
 import { ReportTemplateSelectModal, useReportGeneration } from '../../features/reportList';
@@ -20,7 +20,7 @@ export const MainLayout: React.FC = () => {
   } = useReportGeneration();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Header onNewReportClick={handleOpen} />
       <Container component="main" sx={{ flex: 1, py: 3 }}>
         <Outlet />
@@ -36,22 +36,6 @@ export const MainLayout: React.FC = () => {
         generatingId={generatingId}
         onGenerate={handleGenerate}
       />
-
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity={snackbar.severity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };

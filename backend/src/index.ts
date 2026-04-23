@@ -4,10 +4,12 @@ import { PrismaClient } from '@prisma/client';
 import { createBullBoard } from '@bull-board/api';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { ExpressAdapter } from '@bull-board/express';
+import swaggerUi from 'swagger-ui-express';
 import { reportQueue } from './queues/reportQueue';
 import reportTemplateRoutes from './routes/reportTemplateRoutes';
 import reportRoutes from './routes/reportRoutes';
 import logger from './utils/logger';
+import openApiDocument from './config/openapi';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -26,6 +28,10 @@ createBullBoard({
 });
 
 app.use('/admin/queues', serverAdapter.getRouter());
+app.get('/api/openapi.json', (req, res) => {
+  res.json(openApiDocument);
+});
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 // API routes
 app.use('/api/report-templates', reportTemplateRoutes);

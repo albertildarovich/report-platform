@@ -10,7 +10,7 @@ export const useGenerateReport = (onSuccess?: (runId: string) => void) => {
     setError(null);
     try {
       const result = await reportTemplateApi.generate(reportId);
-      const runId = result.runId;
+      const runId = result.runId!;
       if (onSuccess) onSuccess(runId);
       return runId;
     } catch (err) {

@@ -5,25 +5,28 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.0.0",
-    "@mui/material": "^9.0.0",
+    "@mui/icons-material": "^5.16.14",
+    "@mui/material": "^5.16.14",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "axios": "^1.6.4",
-    "i18next": "^26.0.6",
+    "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^8.2.1",
-    "i18next-http-backend": "^3.0.5",
+    "i18next-http-backend": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^17.0.4",
+    "react-i18next": "^11.18.4",
     "react-router-dom": "^6.21.1",
-    "typescript": "~4.9.5"
+    "typescript": "4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sync-openapi": "curl -fsSL http://localhost:3001/api/openapi.json -o openapi.json",
+    "generate-api-client": "npx openapi-typescript-codegen --input ./openapi.json --output src/shared/api/client --client axios",
+    "generate-api": "npm run sync-openapi && npm run generate-api-client"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
@@ -33,6 +36,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
     "jest-environment-jsdom": "^30.3.0",
+    "openapi-typescript-codegen": "^0.29.0",
     "react-scripts": "5.0.1"
   },
   "browserslist": {

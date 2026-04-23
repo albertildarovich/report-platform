@@ -28,7 +28,9 @@
     "limit": "Limit",
     "auto": "Auto",
     "paginationSummary": "{{from}}-{{to}} of {{total}}",
-    "reportsDescription": "List of all generated reports, updated automatically."
+    "reportsDescription": "List of all generated reports, updated automatically.",
+    "templateId": "Template ID",
+    "idLabel": "ID:"
   },
   "status": {
     "PENDING": "Pending",
@@ -39,5 +41,24 @@
   "language": {
     "en": "English",
     "ru": "Русский"
+  },
+  "footer": {
+    "reports": "Reports",
+    "about": "About"
+  },
+  "about": {
+    "title": "About",
+    "description": "This is a platform for generating and managing reports. The system allows creating, viewing, and exporting reports in various formats.",
+    "features": "Key Features",
+    "feature1": "Report generation in PDF and Excel formats",
+    "feature2": "Report template management",
+    "feature3": "Pagination and filtering of report list",
+    "feature4": "Multilingual support (Russian/English)",
+    "technology": "Technology",
+    "techStack": "Frontend: React, TypeScript, Material-UI, React Router. Backend: Node.js, Express, Prisma, PostgreSQL.",
+    "architecture": "System Architecture",
+    "architectureDescription": "Below is a UML diagram illustrating the platform architecture:",
+    "architectureCaption": "UML diagram of the report platform architecture",
+    "contact": "For questions and suggestions:"
   }
 }

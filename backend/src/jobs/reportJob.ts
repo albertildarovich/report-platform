@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import logger from '../utils/logger';
 import { generateXlsx } from '../reportGenerators/xlsxGenerator';
 import { generatePdf } from '../reportGenerators/pdfGenerator';
+import { getDataSourceProvider } from '../dataSources/reportDataSources';
 
 const prisma = new PrismaClient();
 
@@ -21,16 +22,20 @@ export async function processReport(reportTemplateId: string, reportId: string) 
       throw new Error(`Report template ${reportTemplateId} not found`);
     }
 
-    // Simulate data fetching from different sources
-    const data = await fetchDataForReport(template.name);
+    // Fetch data via provider to show heterogeneous sources.
+    const dataSourceProvider = getDataSourceProvider(template.type || undefined);
+    const data = await dataSourceProvider.getData();
 
-    // Generate report based on format (for prototype we generate both XLSX and PDF)
-    const xlsxBuffer = await generateXlsx(data);
-    const pdfBuffer = await generatePdf(data);
+    // Generate report in the requested template format.
+    if (template.format === 'XLSX') {
+      await generateXlsx(data);
+    } else {
+      await generatePdf(data);
+    }
 
     // In a real scenario we would store files in object storage
     // For prototype we store as base64 in DB (not production-ready)
-    const resultUrl = `/api/runs/${reportId}/download`;
+    const resultUrl = `/api/reports/${reportId}/download`;
 
     await prisma.report.update({
       where: { id: reportId },
@@ -53,22 +58,5 @@ export async function processReport(reportTemplateId: string, reportId: string) 
       },
     });
     throw error;
-  }
-}
-
-async function fetchDataForReport(reportName: string): Promise<any[]> {
-  // Mock data for prototype
-  if (reportName.includes('Sales')) {
-    return [
-      { month: 'Jan', revenue: 10000, units: 500 },
-      { month: 'Feb', revenue: 12000, units: 600 },
-      { month: 'Mar', revenue: 15000, units: 750 },
-    ];
-  } else {
-    return [
-      { user: 'Alice', logins: 42, lastActive: '2024-01-15' },
-      { user: 'Bob', logins: 38, lastActive: '2024-01-14' },
-      { user: 'Charlie', logins: 55, lastActive: '2024-01-16' },
-    ];
   }
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { reportTemplateApi } from '../../../entities/reportTemplate';
-import { ReportTemplate } from '../../../shared/types';
+import type { ReportTemplate } from '../../../shared/api/client/models/ReportTemplate';
 
 export const useReportTemplates = () => {
   const [reports, setReports] = useState<ReportTemplate[]>([]);
@@ -11,7 +11,7 @@ export const useReportTemplates = () => {
     try {
       setLoading(true);
       const data = await reportTemplateApi.getAll();
-      setReports(data);
+      setReports(data as ReportTemplate[]);
       setError(null);
     } catch (err) {
       console.error('Failed to fetch report templates:', err);

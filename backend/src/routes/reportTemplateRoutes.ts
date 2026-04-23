@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
 import logger from '../utils/logger';
+import { addReportJob } from '../queues/reportQueue';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -57,21 +58,12 @@ router.post('/:id/generate', async (req, res) => {
       },
     });
 
-    // In a real implementation, we would publish to a message queue
-    // For prototype, we simulate async processing
-    // We'll just update status after a delay
-    setTimeout(() => {
-      // Simulate processing
-      prisma.report.update({
-        where: { id: report.id },
-        data: { status: 'COMPLETED', completedAt: new Date() },
-      }).catch(logger.error);
-    }, 5000);
+    await addReportJob(template.id, report.id);
 
     res.status(202).json({
       message: 'Report generation started',
       runId: report.id,
-      statusUrl: `/api/runs/${report.id}/status`,
+      statusUrl: `/api/reports/${report.id}/status`,
     });
   } catch (error) {
     logger.error('Failed to start report generation:', error);

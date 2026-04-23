@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Report } from '../../../shared/types';
+import type { Report } from '../../../shared/api/client/models/Report';
 import { ReportListTableRow } from './ReportListTableRow';
 
 interface ReportListTableProps {
@@ -41,7 +41,7 @@ export const ReportListTable: React.FC<ReportListTableProps> = ({ reports }) => 
           {t('app.reports')}
         </Typography>
         <TableContainer component={Paper} variant="outlined">
-          <Table>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell><strong>{t('app.reportId')}</strong></TableCell>

@@ -63,16 +63,23 @@ router.get('/:id/download', async (req, res) => {
   try {
     const report = await prisma.report.findUnique({
       where: { id: req.params.id },
+      include: { reportTemplate: true },
     });
     if (!report || report.status !== 'COMPLETED') {
       return res.status(404).json({ error: 'Result not available' });
     }
 
     // In a real implementation, we would stream the file from storage
-    // For prototype, we return a mock file
-    const mockContent = 'Mock report content';
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="report-${report.id}.xlsx"`);
+    // For prototype, we return a mock file with correct format metadata.
+    const isPdf = report.reportTemplate?.format === 'PDF';
+    const extension = isPdf ? 'pdf' : 'xlsx';
+    const contentType = isPdf
+      ? 'application/pdf'
+      : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const mockContent = isPdf ? 'Mock PDF report content' : 'Mock XLSX report content';
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `attachment; filename="report-${report.id}.${extension}"`);
     res.send(Buffer.from(mockContent));
   } catch (error) {
     logger.error('Failed to download result:', error);

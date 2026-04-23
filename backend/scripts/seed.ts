@@ -36,7 +36,7 @@ async function main() {
         status: 'COMPLETED',
         startedAt: new Date(Date.now() - 86400000),
         completedAt: new Date(Date.now() - 86300000),
-        resultUrl: '/api/runs/1/download',
+        resultUrl: '/api/reports/1/download',
       },
       {
         reportTemplateId: template1.id,

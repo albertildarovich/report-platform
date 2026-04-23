@@ -14,7 +14,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ReportTemplate } from '../../../shared/types';
+import type { ReportTemplate } from '../../../shared/api/client/models/ReportTemplate';
 
 interface ReportTemplateSelectModalProps {
   open: boolean;
@@ -55,35 +55,40 @@ export const ReportTemplateSelectModal: React.FC<ReportTemplateSelectModalProps>
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            {reports.map((report) => (
-              <Card key={report.id} variant="outlined">
-                <CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Box>
-                      <Typography variant="h6">{report.name}</Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                        {report.description}
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        <Chip label={report.format} size="small" color="primary" variant="outlined" />
-                        {report.type && <Chip label={report.type} size="small" variant="outlined" />}
-                        <Typography variant="caption" color="text.secondary">
-                          ID: {report.id}
+            {reports.map((report) => {
+              const templateId = report.id;
+              const isGenerating = templateId ? generatingId === templateId : false;
+
+              return (
+                <Card key={templateId ?? report.name} variant="outlined">
+                  <CardContent>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <Box>
+                        <Typography variant="h6">{report.name}</Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          {report.description}
                         </Typography>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                          <Chip label={report.format} size="small" color="primary" variant="outlined" />
+                          {report.type && <Chip label={report.type} size="small" variant="outlined" />}
+                          <Typography variant="caption" color="text.secondary">
+                            {t('app.idLabel')} {templateId}
+                          </Typography>
+                        </Box>
                       </Box>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => templateId && onGenerate(templateId)}
+                        disabled={!templateId || isGenerating}
+                      >
+                        {isGenerating ? <CircularProgress size={20} /> : t('app.generate')}
+                      </Button>
                     </Box>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => onGenerate(report.id)}
-                      disabled={generatingId === report.id}
-                    >
-                      {generatingId === report.id ? <CircularProgress size={20} /> : t('app.generate')}
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </Box>
         )}
       </DialogContent>

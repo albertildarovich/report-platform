@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useReportGenerationModal } from './useReportGenerationModal';
-import { ReportTemplate } from '../../../shared/types';
+import type { ReportTemplate } from '../../../shared/api/client/models/ReportTemplate';
 
 interface ReportGenerationContextValue {
   open: boolean;

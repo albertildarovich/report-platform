@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { reportApi } from '../api/reportApi';
-import { Report } from '../../../shared/types';
+import type { Report } from '../../../shared/api/client/models/Report';
 
 export const useReport = (id?: string) => {
   const [report, setReport] = useState<Report | null>(null);
@@ -11,7 +11,7 @@ export const useReport = (id?: string) => {
     setLoading(true);
     try {
       const data = await reportApi.getById(reportId);
-      setReport(data);
+      setReport(data as Report);
       setError(null);
     } catch (err) {
       console.error('Failed to fetch report:', err);
